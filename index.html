@@ -10,6 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
@@ -65,8 +66,8 @@
             font-size: 18px;
         }
         .card-front img {
-            width: 200px; /* Ajuste o tamanho conforme necessário */
-            height: auto;  /* Mantém a proporção da imagem */
+            width: 150px; 
+            height: auto;  
             margin-bottom: 20px;
         }
         .card-back {
@@ -127,6 +128,24 @@
             color: #333333;
         }
         .address-input input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: #333333;
+        }
+        .name-input {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .name-input label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+            color: #333333;
+        }
+        .name-input input[type="text"] {
             width: 100%;
             padding: 10px;
             font-size: 16px;
@@ -365,6 +384,7 @@
     </style>
 </head>
 <body>
+
 <div class="card">
     <div class="card-inner">
         <div class="card-front">
@@ -413,6 +433,10 @@
             <div class="address-input">
                 <label for="address">Seu Endereço:</label>
                 <input type="text" id="address" placeholder="Rua, Número, Bairro">
+            </div>
+            <div class="name-input">
+                <label for="user-name">Seu Nome:</label>
+                <input type="text" id="user-name" placeholder="Digite seu nome">
             </div>
             <div class="schedule-input">
                 <label for="schedule">Data e Hora de Entrega:</label>
@@ -506,6 +530,7 @@
     function simulateSending() {
         const { totalSalgados, totalPrice, quibe, coxinha, travesseirinho, enroladinho, bolinha } = calculateTotal();
         const address = document.getElementById('address').value;
+        const name = document.getElementById('user-name').value;
         const payment = document.getElementById('payment').value;
         const schedule = document.getElementById('schedule').value;
         if (totalSalgados < 50) {
@@ -520,6 +545,10 @@
             alert("Por favor, insira a data e hora de entrega.");
             return;
         }
+        if (!name) {
+            alert("Por favor, insira o seu nome.");
+            return;
+        }
         const formattedSchedule = formatDateTime(schedule);
         let message = `Olá, gostaria de fazer um pedido:\n\n`;
         if (quibe > 0) message += `Quibe: ${quibe} unidades\n`;
@@ -527,7 +556,7 @@
         if (travesseirinho > 0) message += `Travesseirinho de Carne: ${travesseirinho} unidades\n`;
         if (enroladinho > 0) message += `Enroladinho de Salsicha: ${enroladinho} unidades\n`;
         if (bolinha > 0) message += `Bolinha de Queijo: ${bolinha} unidades\n`;
-        message += `\nEndereço: ${address}\nData e Hora de Entrega: ${formattedSchedule}\nForma de Pagamento: ${payment}\n\nTotal: ${totalSalgados} salgados\nValor Total: R$ ${totalPrice}`;
+        message += `\nEndereço: ${address}\nNome: ${name}\nData e Hora de Entrega: ${formattedSchedule}\nForma de Pagamento: ${payment}\n\nTotal: ${totalSalgados} salgados\nValor Total: R$ ${totalPrice}`;
         const encodedMessage = encodeURIComponent(message);
         document.getElementById('loading-container').style.display = 'block';
         setTimeout(() => {
